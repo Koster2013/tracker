@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+	<h1>Angular demo</h1>
+	<div ng-app="myApp" ng-controller="myCtrl">
+		Katgeorie Id: <input type="text" ng-model="searchTerm.categorieId">
+		<br>
+		<div ng-app="myApp" ng-controller="myCtrl">
+			Asin Id: <input type="text" ng-model="searchTerm.asin"> <br>
+			<button ng-click="checkCategorie()">Prüfe Kategorie</button>
+			<button ng-click="checkAsin()">Prüfe Asin</button>
+
+
+			<hr>
+			<h1>{{categorieTitle}}</h1>
+			<h1>{{asin}}</h1>
+
+		</div>
+
+		<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+    $scope.checkCategorie = function() {
+    	 $http.get("http://localhost:8080/amazon-tracker/rest/hello/checkCategory?categoryId=" + $scope.searchTerm.categorieId)
+    	    .then(function(response) {
+    	        $scope.categorieTitle = response.data;
+    	  });
+    };
+    $scope.checkAsin = function() {
+   	 $http.get("http://localhost:8080/amazon-tracker/rest/hello/checkAsin?asin=" + $scope.searchTerm.asin)
+   	    .then(function(response) {
+   	        $scope.asin = response.data;
+   	  });
+   };
+    
+   
+});
+</script>
+</body>
+</html>
